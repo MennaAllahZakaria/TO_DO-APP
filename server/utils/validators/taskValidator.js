@@ -15,7 +15,11 @@ exports.createTaskValidator=[
 
     check('userId')
         .notEmpty().withMessage("user id is required")
-        .isMongoId().withMessage('Invalid User id format')
+        .isMongoId().withMessage('Invalid User id format'),
+
+    check('dueDate')
+        .optional()
+        .isISO8601().withMessage('Invalid date format')
 
         ,validatorMiddleware
     ];
@@ -44,6 +48,9 @@ exports.updateTaskValidator=[
     check('userId')
         .optional()
         .isMongoId().withMessage('Invalid User id format'),
+    check('dueDate')
+        .optional()
+        .isISO8601().withMessage('Invalid date format'),
 
     validatorMiddleware
     ];
