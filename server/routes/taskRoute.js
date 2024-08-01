@@ -11,8 +11,16 @@ const {
     deleteTask,
     updateTaskStatus,
     
-    
 }=require("../services/taskService");
+
+const{
+    createTaskValidator,
+    getTaskValidator,
+    updateTaskValidator,
+    deleteTaskValidator
+
+
+}=require('../utils/validators/taskValidator')
 
 const{
     protect,
@@ -29,17 +37,21 @@ router.route('/')
                     getAllTasks
                 )
                 .post(
+                    createTaskValidator,
                     createTask
                 );
 
 router.route('/:id')
                     .get(
+                        getTaskValidator,
                         getTask
                     )
                     .put(
+                        updateTaskValidator,
                         updateTask
                     )
                     .delete(
+                        deleteTaskValidator,
                         deleteTask
                     );
 

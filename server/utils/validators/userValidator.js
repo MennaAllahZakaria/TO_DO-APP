@@ -151,7 +151,8 @@ exports.changeUserPasswordValidator=[
 ];
 
 exports.deleteUserValidator=[
-    check('id').notEmpty().withMessage("id is required")
-    .isMongoId().withMessage('Invalid User id format'),
+    check('id')
+        .notEmpty().withMessage("id is required")
+        .isMongoId().withMessage('Invalid User id format'),
     validatorMiddleware,
 ];
