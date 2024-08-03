@@ -33,7 +33,7 @@ const{
     allowedTo
 }=require("../services/authService");
 
-router.use(protect);
+//router.use(protect);
 
 router.get('/getMe',getLoggedUserData,getUser);
 router.put('/changeMyPassword', updateLoggedUserPassword);

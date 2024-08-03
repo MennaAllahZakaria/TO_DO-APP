@@ -1,7 +1,11 @@
 const express = require("express");
 const morgan = require("morgan");
 const dotenv = require("dotenv");
+const cors =require("cors");
+const compression=require('compression');
 dotenv.config({path:"config.env"});
+const path=require('path');
+
 
 const dbConnection = require('./config/database');
 const ApiError = require("./utils/ApiError");
@@ -9,9 +13,18 @@ const globalError = require('./middlewares/errorMiddleware');
 const mountRoutes = require('./routes/index');
 
 const app = express();
+//cors -> other domains can access our app
+app.use(cors());
+app.options('*',cors());
+
+//compression -> compress all responses
+app.use(compression());
+
 
 // Middleware to parse JSON requests
 app.use(express.json());
+app.use(express.static(path.join(__dirname, 'uploads')));
+
 
 // Connect to DB
 dbConnection();
