@@ -33,23 +33,23 @@ exports.uploadUserImage=uploadSingleImage("profileImage");
 
 
 // @desc    Create user
-// @route   POST  /api/v1/users
+// @route   POST  /api/users
 // @access  Private
 exports.createUser=handlerFactory.createOne(User);
 
 
 // @desc    Get specific User by id
-// @route   GET /api/v1/users/:id
+// @route   GET /api/users/:id
 // @access  Private/admin
 exports.getUser =handlerFactory.getOne(User);
 
 // @desc    Get list of users
-// @route   GET /api/v1/users
+// @route   GET /api/users
 // @access  Private/admin
 exports.getUsers = handlerFactory.getAll(User);
 
 // @desc    Update specific User
-// @route   PUT /api/v1/users/:id
+// @route   PUT /api/users/:id
 // @access  Private/admin
 exports.updateUser =asyncHandler(async (req, res, next) => {
     const user = await User.findByIdAndUpdate(req.params.id,
@@ -73,7 +73,7 @@ exports.updateUser =asyncHandler(async (req, res, next) => {
     res.status(200).json({ data: user });
 })
 // @desc    Change user password
-// @route   DELETE /api/v1/users/changePassword/:id
+// @route   DELETE /api/users/changePassword/:id
 // @access  Private/user
 
 exports.changeUserPassword = asyncHandler(async (req, res, next) => {
@@ -96,7 +96,7 @@ exports.changeUserPassword = asyncHandler(async (req, res, next) => {
 });
 
 // @desc    Delete specific User
-// @route   DELETE /api/v1/users/:id
+// @route   DELETE /api/users/:id
 // @access  Private/admin
 exports.deleteUser =handlerFactory.deleteOne(User);
 
@@ -105,7 +105,7 @@ exports.deleteUser =handlerFactory.deleteOne(User);
 
 
 // @desc    Get logged user data
-// @route   GET /api/v1/users/getMe
+// @route   GET /api/users/getMe
 // @access  Private/protect
 
 exports.getLoggedUserData = asyncHandler(async (req, res, next) => {
@@ -115,7 +115,7 @@ exports.getLoggedUserData = asyncHandler(async (req, res, next) => {
     });
 
 // @desc    Update user password
-// @route   PUT /api/v1/users/updateMyPassword
+// @route   PUT /api/users/updateMyPassword
 // @access  Private/protect
 
 
@@ -137,7 +137,7 @@ exports.updateLoggedUserPassword=asyncHandler(async(req,res,next)=>{
 
 
 // @desc    Update logged user data without [password,role]
-// @route   PUT /api/v1/users/updateMe
+// @route   PUT /api/users/updateMe
 // @access  Private/protect
 
 exports.updateLoggedUserData=asyncHandler(async(req,res,next)=>{
@@ -159,7 +159,7 @@ exports.updateLoggedUserData=asyncHandler(async(req,res,next)=>{
 
 
 // @desc    Deactvate logged user 
-// @route   PUT /api/v1/users/deleteMe
+// @route   PUT /api/users/deleteMe
 // @access  Private/protect
 
 exports.deleteLoggedUserData=asyncHandler(async(req,res,next)=>{

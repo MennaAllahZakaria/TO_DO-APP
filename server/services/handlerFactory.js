@@ -80,7 +80,6 @@ const ApiFeatures=require('../utils/apiFeatures');
                 if (!document) {
                     return next(new ApiError(`No document for this id ${id}`, 404));
                 }
-                document.remove();
                 res.status(204).send();
             });
 

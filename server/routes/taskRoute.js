@@ -5,11 +5,15 @@ const router=express.Router();
 
 const {
     createTask,
-    getAllTasks,
+    getAllTasksForLoggedUser,
+    getLateTasks,
+    getTodayTasks,
+    getCompletedTasks,
     getTask,
     updateTask,
-    deleteTask,
     updateTaskStatus,
+    deleteTask,
+    deleteAllTasks,
     
 }=require("../services/taskService");
 
@@ -31,14 +35,23 @@ router.use(protect,allowedTo('user'));
 
 
 
+router.get('/completed',getCompletedTasks);
 
+router.get('/late',getLateTasks);
+
+router.get('/today',getTodayTasks);
+
+router.put('/changeStatus/:id',updateTaskStatus)
+                    
 router.route('/')
                 .get(
-                    getAllTasks
+                    getAllTasksForLoggedUser
                 )
                 .post(
                     createTaskValidator,
                     createTask
+                ).delete(
+                    deleteAllTasks
                 );
 
 router.route('/:id')
@@ -54,9 +67,6 @@ router.route('/:id')
                         deleteTaskValidator,
                         deleteTask
                     );
-
-router.put('/changeStatus/:id',updateTaskStatus)
-                    
 
 
 
