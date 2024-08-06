@@ -6,6 +6,7 @@ import LoginPage from './components/LoginPage';
 import ContactUs from './components/ContactUs';
 import HomePage from './components/Home';
 import NavBar from './components/NavBar';
+import TasksPage from './components/TaskPage';
 
 function App() {
   const Layout = () => (
@@ -25,6 +26,7 @@ function App() {
           <Route path="/signup" element={<SignUpPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/contactUs" element={<ContactUs />} />
+          <Route path="/tasks" element={<TasksPage/>} />
         </Route>
       </Routes>
     </Router>

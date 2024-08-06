@@ -1,0 +1,34 @@
+/* src/components/TaskItem.css */
+.card {
+    transition: background-color 0.3s, text-decoration 0.3s;
+  }
+  
+  .completed-task {
+    background-color: #d4edda; /* Light green background for completed tasks */
+    color: #155724; /* Dark green text for completed tasks */
+    text-decoration: line-through; /* Strikethrough text for completed tasks */
+  }
+  
+  .incomplete-task {
+    background-color: #f8f9fa; /* Light background for incomplete tasks */
+    color: #000; /* Black text for incomplete tasks */
+  }
+  
+  .card .card-title {
+    font-weight: bold;
+  }
+  
+  .card .text-success {
+    color: #28a745; /* Success color for check mark */
+  }
+  
+  .card .btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+  }
+  
+  .card .btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+  }
+  
