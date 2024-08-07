@@ -11,7 +11,6 @@ const SignUpPage = () => {
     name: Yup.string().required('Name is required'),
     email: Yup.string().email('Invalid email').required('Email is required'),
     phone: Yup.string().matches(/^[0-9]{10}$/, 'Phone number is not valid').required('Phone number is required'),
-    profileImage: Yup.mixed(),
     password: Yup.string().min(8, 'Password must be at least 8 characters').required('Password is required'),
     passwordConfirm: Yup.string()
       .oneOf([Yup.ref('password'), null], 'Passwords must match')
@@ -19,34 +18,35 @@ const SignUpPage = () => {
   });
 
   const handleSubmit = async (values, { setSubmitting }) => {
-    const formData = new FormData();
-    formData.append('name', values.name);
-    formData.append('email', values.email);
-    formData.append('phone', values.phone);
-    formData.append('profileImage', values.profileImage);
-    formData.append('password', values.password);
+    setServerError(''); // Clear previous errors
 
     try {
-        // Convert the FormData object to JSON
-        const jsonData = JSON.stringify(values);
-      const response = await axios.post(`http://localhost:8000/api/auth/signup`, jsonData, {
+      // Convert values to JSON
+      const response = await axios.post(`http://localhost:5000/api/auth/signup`, values, {
         headers: { 'Content-Type': 'application/json' },
       });
 
       if (response.status === 201) {
         const { token } = response.data;
         localStorage.setItem('token', token); // Store the token
-        // Redirect to a secure page or dashboard
-        // window.location.href = '/dashboard';
+        // Redirect to a tasks page
+        window.location.href = '/tasks';
       }
     } catch (error) {
-        console.log(error);
-      setServerError(error.response?.data?.message || 'Something went wrong');
+      if (error.response) {
+        // Server responded with a status other than 2xx
+        setServerError(error.response.data.message || 'Sign up failed please try again');
+      } else if (error.request) {
+        // Request was made but no response received
+        setServerError('No response from server');
+      } else {
+        // Something else happened
+        setServerError('An error occurred');
+      }
     } finally {
       setSubmitting(false);
     }
   };
-  
 
   return (
     <div className="container d-flex justify-content-center align-items-center min-vh-100">
@@ -58,14 +58,13 @@ const SignUpPage = () => {
             name: '',
             email: '',
             phone: '',
-            profileImage: null,
             password: '',
             passwordConfirm: '',
           }}
           validationSchema={validationSchema}
           onSubmit={handleSubmit}
         >
-          {({ setFieldValue }) => (
+          {({ isSubmitting }) => (
             <Form>
               <div className="form-group mb-3">
                 <label htmlFor="name" className="form-label">Name</label>
@@ -83,16 +82,6 @@ const SignUpPage = () => {
                 <ErrorMessage name="phone" component="div" className="text-danger small" />
               </div>
               <div className="form-group mb-3">
-                <label htmlFor="profileImage" className="form-label">Profile Image</label>
-                <input
-                  name="profileImage"
-                  type="file"
-                  className="form-control"
-                  onChange={(event) => setFieldValue('profileImage', event.currentTarget.files[0])}
-                />
-                <ErrorMessage name="profileImage" component="div" className="text-danger small" />
-              </div>
-              <div className="form-group mb-3">
                 <label htmlFor="password" className="form-label">Password</label>
                 <Field name="password" type="password" className="form-control" />
                 <ErrorMessage name="password" component="div" className="text-danger small" />
@@ -102,7 +91,9 @@ const SignUpPage = () => {
                 <Field name="passwordConfirm" type="password" className="form-control" />
                 <ErrorMessage name="passwordConfirm" component="div" className="text-danger small" />
               </div>
-              <button type="submit" className="btn btn-primary w-100">Sign Up</button>
+              <button type="submit" className="btn btn-primary w-100" disabled={isSubmitting}>
+                {isSubmitting ? 'Submitting...' : 'Sign Up'}
+              </button>
             </Form>
           )}
         </Formik>

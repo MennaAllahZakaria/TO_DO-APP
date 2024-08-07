@@ -1,20 +1,19 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Outlet } from 'react-router-dom';
 import SignUpPage from './components/SignUpPage';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import LoginPage from './components/LoginPage';
 import ContactUs from './components/ContactUs';
 import HomePage from './components/Home';
-import NavBar from './components/NavBar';
 import TasksPage from './components/TaskPage';
+import UserInfoPage from './components/UserInfoPage';
+import NavBar from './components/NavBar';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   const Layout = () => (
     <>
       <NavBar />
-      <div className="container mt-4">
-        <Outlet />
-      </div>
+      <Outlet />
     </>
   );
 
@@ -23,10 +22,11 @@ function App() {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<HomePage />} />
-          <Route path="/signup" element={<SignUpPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/contactUs" element={<ContactUs />} />
-          <Route path="/tasks" element={<TasksPage/>} />
+          <Route path="signup" element={<SignUpPage />} />
+          <Route path="login" element={<LoginPage />} />
+          <Route path="contactus" element={<ContactUs />} />
+          <Route path="tasks" element={<TasksPage />} />
+          <Route path="user-info" element={<UserInfoPage />} />
         </Route>
       </Routes>
     </Router>

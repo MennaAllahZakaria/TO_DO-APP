@@ -14,7 +14,7 @@ const LoginPage = () => {
 
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
-      const response = await axios.post('http://localhost:8000/api/auth/login', {
+      const response = await axios.post('http://localhost:5000/api/auth/login', {
         email: values.email,
         password: values.password,
       });
@@ -22,9 +22,10 @@ const LoginPage = () => {
       if (response.status === 200) {
         const { token } = response.data;
         localStorage.setItem('token', token); // Store the token
-        // Redirect to a secure page or dashboard
-        // window.location.href = '/dashboard';
+        
         console.log("Login successful")
+        // Redirect to tasks page
+        window.location.href = '/tasks';
       }
     } catch (error) {
       console.log(error);
