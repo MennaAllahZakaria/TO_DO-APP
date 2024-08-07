@@ -4,7 +4,7 @@ import * as Yup from 'yup';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const LoginPage = () => {
+const LoginPage = ({handleLogin}) => {
   const [serverError, setServerError] = useState('');
 
   const validationSchema = Yup.object().shape({
@@ -22,7 +22,7 @@ const LoginPage = () => {
       if (response.status === 200) {
         const { token } = response.data;
         localStorage.setItem('token', token); // Store the token
-        
+        if (handleLogin) handleLogin();
         console.log("Login successful")
         // Redirect to tasks page
         window.location.href = '/tasks';
