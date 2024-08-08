@@ -27,7 +27,7 @@ const SignUpPage = () => {
         headers: { 'Content-Type': 'application/json' },
       });
 
-      if (response.status === ok) {
+      if (response.status === 201|| response.status === 200) {
         const { token } = response.data;
         localStorage.setItem('token', token); // Store the token
         // Redirect to a tasks page
