@@ -1,7 +1,6 @@
-// src/components/TaskItem.jsx
 import React from 'react';
 import { FaEdit, FaTrash, FaCheck } from 'react-icons/fa';
-import './TaskItem.css'; // Import the CSS file
+import './TaskItem.css'; 
 
 const TaskItem = ({ task, onEdit, onDelete, onToggleComplete }) => {
   return (

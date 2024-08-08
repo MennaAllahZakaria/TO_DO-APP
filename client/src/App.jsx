@@ -8,6 +8,8 @@ import TasksPage from './components/TaskPage';
 import UserInfoPage from './components/UserInfoPage';
 import NavBar from './components/NavBar';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import ForgotPasswordPage from './components/ForgotPasswordPage';
+import ResetPasswordPage from './components/ResetPasswordPage';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -43,7 +45,9 @@ function App() {
           <Route path="login" element={<LoginPage />} handleLogin={handleLogin}  />
           <Route path="contactus" element={<ContactUs />} />
           <Route path="tasks" element={<TasksPage />} />
-          <Route path="user-info" element={<UserInfoPage />} />
+          <Route path="user-info" element={<UserInfoPage />} />    
+          <Route path="forgot-password" element={<ForgotPasswordPage/>} />
+          <Route path="reset-password" element={<ResetPasswordPage/>} />
         </Route>
       </Routes>
     </Router>

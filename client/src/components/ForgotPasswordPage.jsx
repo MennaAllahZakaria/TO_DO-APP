@@ -2,33 +2,34 @@ import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom';
 
-const LoginPage = ({handleLogin}) => {
+const ForgotPasswordPage = () => {
   const [serverError, setServerError] = useState('');
+  const [isCodeSent, setIsCodeSent] = useState(false);
+  const navigate = useNavigate();
 
   const validationSchema = Yup.object().shape({
     email: Yup.string().email('Invalid email').required('Email is required'),
-    password: Yup.string().required('Password is required'),
   });
 
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/login', {
+      const response = await axios.post('http://localhost:5000/api/auth/forgotPassword', {
         email: values.email,
-        password: values.password,
       });
 
       if (response.status === 200) {
-        const { token } = response.data;
-        localStorage.setItem('token', token); // Store the token
-        if (handleLogin) handleLogin();
-        console.log("Login successful")
-        // Redirect to tasks page
-        window.location.href = '/tasks';
+        setIsCodeSent(true);
+        toast.success('Password reset email sent successfully. Please check your inbox.');
+        // Navigate to ResetPasswordPage and pass the email
+        navigate('/reset-password', { state: { email: values.email } });
+      } else {
+        toast.error('Failed to send password reset email.');
       }
     } catch (error) {
-      console.log(error);
       setServerError(error.response?.data?.message || 'Something went wrong');
     } finally {
       setSubmitting(false);
@@ -38,12 +39,11 @@ const LoginPage = ({handleLogin}) => {
   return (
     <div className="container d-flex justify-content-center align-items-center min-vh-100">
       <div className="w-100" style={{ maxWidth: '400px' }}>
-        <h2 className="text-center mb-4">Login</h2>
+        <h2 className="text-center mb-4">Forgot Password</h2>
         {serverError && <div className="alert alert-danger">{serverError}</div>}
         <Formik
           initialValues={{
             email: '',
-            password: '',
           }}
           validationSchema={validationSchema}
           onSubmit={handleSubmit}
@@ -55,26 +55,15 @@ const LoginPage = ({handleLogin}) => {
                 <Field name="email" type="email" className="form-control" placeholder="Enter your email" />
                 <ErrorMessage name="email" component="div" className="text-danger small" />
               </div>
-              <div className="form-group mb-3">
-                <label htmlFor="password" className="form-label">Password</label>
-                <Field name="password" type="password" className="form-control" placeholder="Enter your password" />
-                <ErrorMessage name="password" component="div" className="text-danger small" />
-              </div>
               <button type="submit" className="btn btn-primary w-100" disabled={isSubmitting}>
-                {isSubmitting ? 'Logging in...' : 'Login'}
+                {isSubmitting ? 'Sending...' : isCodeSent ? 'Resend Reset Link' : 'Send Reset Link'}
               </button>
             </Form>
           )}
         </Formik>
-        <div className="text-center mt-3">
-          <a href="/forgot-password" className="text-primary">Forgot your password?</a>
-        </div>
-        <div className="text-center mt-3">
-          <p className="mb-0">Don't have an account? <a href="/signup" className="text-primary">Sign Up</a></p>
-        </div>
       </div>
     </div>
   );
 };
 
-export default LoginPage;
+export default ForgotPasswordPage;

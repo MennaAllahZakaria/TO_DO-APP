@@ -22,11 +22,12 @@ const SignUpPage = () => {
 
     try {
       // Convert values to JSON
+      // Create user
       const response = await axios.post(`http://localhost:5000/api/auth/signup`, values, {
         headers: { 'Content-Type': 'application/json' },
       });
 
-      if (response.status === 201) {
+      if (response.status === ok) {
         const { token } = response.data;
         localStorage.setItem('token', token); // Store the token
         // Redirect to a tasks page
@@ -34,7 +35,6 @@ const SignUpPage = () => {
       }
     } catch (error) {
       if (error.response) {
-        // Server responded with a status other than 2xx
         setServerError(error.response.data.message || 'Sign up failed please try again');
       } else if (error.request) {
         // Request was made but no response received
