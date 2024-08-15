@@ -16,9 +16,11 @@
     "compress.js": "^2.1.2",
     "dotenv": "^16.4.5",
     "react": "^18.3.1",
+    "react-bootstrap": "^2.10.4",
     "react-dom": "^18.3.1",
     "react-icons": "^5.2.1",
     "react-router-dom": "^6.26.0",
+    "react-toastify": "^10.0.5",
     "v": "^0.3.0",
     "yup": "^1.4.0"
   },

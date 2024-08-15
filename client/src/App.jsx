@@ -7,9 +7,11 @@ import HomePage from './components/Home';
 import TasksPage from './components/TaskPage';
 import UserInfoPage from './components/UserInfoPage';
 import NavBar from './components/NavBar';
+import NotFound from './components/NotFound';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ForgotPasswordPage from './components/ForgotPasswordPage';
 import ResetPasswordPage from './components/ResetPasswordPage';
+import './App.css'
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -48,6 +50,7 @@ function App() {
           <Route path="user-info" element={<UserInfoPage />} />    
           <Route path="forgot-password" element={<ForgotPasswordPage/>} />
           <Route path="reset-password" element={<ResetPasswordPage/>} />
+          <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
     </Router>
