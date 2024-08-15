@@ -3,7 +3,11 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import {showSuccessToast,showErrorToast} from './toastUtils'
 
+const API_URL = import.meta.env.VITE_API_URL;
 const SignUpPage = () => {
   const [serverError, setServerError] = useState('');
 
@@ -23,19 +27,23 @@ const SignUpPage = () => {
     try {
       // Convert values to JSON
       // Create user
-      const response = await axios.post(`http://localhost:5000/api/auth/signup`, values, {
+      const response = await axios.post(`${API_URL}/api/auth/signup`, values, {
         headers: { 'Content-Type': 'application/json' },
       });
 
       if (response.status === 201|| response.status === 200) {
+        showSuccessToast(`Welcome, ${values.name}!`);
         const { token } = response.data;
         localStorage.setItem('token', token); // Store the token
         // Redirect to a tasks page
-        window.location.href = '/tasks';
+        setTimeout(() => {
+          window.location.href = '/tasks';
+        }, 2000); // 2 seconds delay
       }
     } catch (error) {
       if (error.response) {
-        setServerError(error.response.data.message || 'Sign up failed please try again');
+        showErrorToast('Sign up failed please try again')
+        setServerError(error.response.data.message  );
       } else if (error.request) {
         // Request was made but no response received
         setServerError('No response from server');
@@ -101,6 +109,7 @@ const SignUpPage = () => {
           <p className="mb-0">Have an account already? <a href="/login" className="text-primary">Login</a></p>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };

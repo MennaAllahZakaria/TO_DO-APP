@@ -3,6 +3,10 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import {showSuccessToast,showErrorToast} from './toastUtils'
+const API_URL = import.meta.env.VITE_API_URL;
 
 const LoginPage = ({handleLogin}) => {
   const [serverError, setServerError] = useState('');
@@ -14,7 +18,7 @@ const LoginPage = ({handleLogin}) => {
 
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/login', {
+      const response = await axios.post(`${API_URL}/api/auth/login`, {
         email: values.email,
         password: values.password,
       });
@@ -24,12 +28,16 @@ const LoginPage = ({handleLogin}) => {
         localStorage.setItem('token', token); // Store the token
         if (handleLogin) handleLogin();
         console.log("Login successful")
+        showSuccessToast(`Welcome back ,${values.name}`);
         // Redirect to tasks page
-        window.location.href = '/tasks';
+        setTimeout(() => {
+          window.location.href = '/tasks';
+        }, 2000); // 2 seconds delay
       }
     } catch (error) {
       console.log(error);
-      setServerError(error.response?.data?.message || 'Something went wrong');
+      showErrorToast('Something went wrong');
+      setServerError(error.response?.data?.message );
     } finally {
       setSubmitting(false);
     }
@@ -73,6 +81,7 @@ const LoginPage = ({handleLogin}) => {
           <p className="mb-0">Don't have an account? <a href="/signup" className="text-primary">Sign Up</a></p>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };

@@ -4,6 +4,8 @@ import axios from 'axios';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import './TaskStyles.css';
+const API_URL = import.meta.env.VITE_API_URL;
+
 
 const TaskForm = ({ taskToEdit, onTaskAddedOrUpdated }) => {
   const [error, setError] = useState('');
@@ -26,14 +28,14 @@ const TaskForm = ({ taskToEdit, onTaskAddedOrUpdated }) => {
         const token = localStorage.getItem('token'); // Retrieve token from localStorage
         if (taskToEdit) {
           // Update task
-          await axios.put(`http://localhost:5000/api/tasks/${taskToEdit._id}`, values, {
+          await axios.put(`${API_URL}/api/tasks/${taskToEdit._id}`, values, {
             headers: {
               Authorization: `Bearer ${token}`, // Include token in headers
             },
           });
         } else {
           // Create new task
-          await axios.post('http://localhost:5000/api/tasks', values, {
+          await axios.post(`${API_URL}/api/tasks`, values, {
             headers: {
               Authorization: `Bearer ${token}`, // Include token in headers
             },

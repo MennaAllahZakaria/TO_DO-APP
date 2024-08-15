@@ -4,6 +4,7 @@ import TaskItem from './TaskItem';
 import TaskForm from './TaskForm';
 import AuthHOC from './AuthHOC';
 
+const API_URL = import.meta.env.VITE_API_URL;
 const TasksPage = () => {
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -21,7 +22,7 @@ const TasksPage = () => {
         setError('No token found');
         return;
       }
-      const response = await axios.get('http://localhost:5000/api/tasks', {
+      const response = await axios.get(`${API_URL}/api/tasks`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -49,7 +50,7 @@ const TasksPage = () => {
         setError('No token found');
         return;
       }
-      await axios.delete(`http://localhost:5000/api/tasks/${id}`, {
+      await axios.delete(`${API_URL}/api/tasks/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -68,7 +69,7 @@ const TasksPage = () => {
         return;
       }
       const task = tasks.find(t => t._id === id);
-      await axios.put(`http://localhost:5000/api/tasks/changeStatus/${id}`, { status: !task.completed }, {
+      await axios.put(`${API_URL}/api/tasks/changeStatus/${id}`, { status: !task.completed }, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

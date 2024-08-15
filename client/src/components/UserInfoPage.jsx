@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import AuthHOC from './AuthHOC';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import {showSuccessToast,showErrorToast} from './toastUtils'
+
+const API_URL = import.meta.env.VITE_API_URL;
 
 const UserInfoPage = () => {
   const [user, setUser] = useState(null);
@@ -11,7 +16,7 @@ const UserInfoPage = () => {
     const fetchUser = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await axios.get('http://localhost:5000/api/users/getMe', {
+        const response = await axios.get(`${API_URL}/api/users/getMe`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -19,6 +24,7 @@ const UserInfoPage = () => {
         setUser(response.data.data);
         setLoading(false);
       } catch (err) {
+        showErrorToast('Failed to load user info')
         setError('Failed to load user info');
         setLoading(false);
       }
@@ -50,6 +56,7 @@ const UserInfoPage = () => {
           <p className="card-text"><strong>Last Updated:</strong> {new Date(user.updatedAt).toLocaleDateString()}</p>
         </div>
       </div>
+      <ToastContainer/>
     </div>
   );
 };

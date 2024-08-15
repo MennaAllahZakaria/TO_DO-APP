@@ -3,6 +3,11 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import {showSuccessToast,showErrorToast} from './toastUtils'
+
+const API_URL = import.meta.env.VITE_API_URL;
 
 const ResetPasswordPage = () => {
   const [serverError, setServerError] = useState('');
@@ -20,17 +25,18 @@ const ResetPasswordPage = () => {
 
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/resetPassword', {
+      const response = await axios.post(`${API_URL}/api/auth/resetPassword`, {
         resetCode: values.resetCode,
         newPassword: values.newPassword,
       });
 
       if (response.status === 200) {
-        setSuccessMessage('Password reset successfully! You can now log in with your new password.');
+        showSuccessToast('Password reset successfully! You can now log in with your new password.');
         console.log('Password reset successfully');
       }
     } catch (error) {
       console.log(error);
+      showErrorToast( 'Something went wrong')
       setServerError(error.response?.data?.message || 'Something went wrong');
     } finally {
       setSubmitting(false);
@@ -76,6 +82,7 @@ const ResetPasswordPage = () => {
           )}
         </Formik>
       </div>
+      <ToastContainer />
     </div>
   );
 };

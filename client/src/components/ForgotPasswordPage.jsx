@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
-import { toast } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import {showSuccessToast,showErrorToast} from './toastUtils'
 import { useNavigate } from 'react-router-dom';
+const API_URL = import.meta.env.VITE_API_URL;
 
 const ForgotPasswordPage = () => {
   const [serverError, setServerError] = useState('');
@@ -17,17 +19,20 @@ const ForgotPasswordPage = () => {
 
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/forgotPassword', {
+      const response = await axios.post(`${API_URL}/api/auth/forgotPassword`, {
         email: values.email,
       });
 
       if (response.status === 200) {
         setIsCodeSent(true);
-        toast.success('Password reset email sent successfully. Please check your inbox.');
+        showSuccessToast('Password reset email sent successfully. Please check your inbox.');
         // Navigate to ResetPasswordPage and pass the email
-        navigate('/reset-password', { state: { email: values.email } });
+        setTimeout(() => {
+          navigate('/reset-password', { state: { email: values.email } });
+        }
+        ,2000);
       } else {
-        toast.error('Failed to send password reset email.');
+        showErrorToast('Failed to send password reset email.');
       }
     } catch (error) {
       setServerError(error.response?.data?.message || 'Something went wrong');
@@ -62,6 +67,7 @@ const ForgotPasswordPage = () => {
           )}
         </Formik>
       </div>
+      <ToastContainer />
     </div>
   );
 };
