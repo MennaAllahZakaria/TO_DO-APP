@@ -66,6 +66,30 @@ const UserInfoPage = () => {
       setError('Failed to update user info');
     }
   };
+  const handleDelete = async () => {
+    if (window.confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
+      try {
+        const token = localStorage.getItem('token');
+        await axios.delete(`${API_URL}/api/users/deleteMe`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        await axios.delete(`${API_URL}/api/tasks/`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        showErrorToast('Account deleted successfully');
+        localStorage.removeItem('token');
+        window.location.href = '/'; // Redirect to home or login page
+      } catch (err) {
+        console.error(err.response?.data || err.message);
+        showErrorToast('Failed to delete account');
+        setError('Failed to delete account');
+      }
+    }
+  };
   
 
   if (loading) return <p>Loading user info...</p>;
@@ -112,16 +136,18 @@ const UserInfoPage = () => {
                   className="form-control"
                 />
               </div>
-              <button type="submit" className="btn btn-primary mt-3">
-                Update
-              </button>
-              <button
-                type="button"
-                className="btn btn-secondary mt-3 ml-2"
-                onClick={() => setEditMode(false)}
-              >
-                Cancel
-              </button>
+              <div className="d-flex justify-content-center mt-3">
+                <button type="submit" className="btn btn-primary mx-2">
+                  Update
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-secondary mx-2"
+                  onClick={() => setEditMode(false)}
+                >
+                  Cancel
+                </button>
+              </div>
             </form>
           ) : (
             <>
@@ -139,19 +165,27 @@ const UserInfoPage = () => {
               <p className="card-text"><strong>Role:</strong> {user.role}</p>
               <p className="card-text"><strong>Account Created:</strong> {new Date(user.createdAt).toLocaleDateString()}</p>
               <p className="card-text"><strong>Last Updated:</strong> {new Date(user.updatedAt).toLocaleDateString()}</p>
-              <button
-                className="btn btn-warning"
-                onClick={() => setEditMode(true)}
-              >
-                Edit Info
-              </button>
+              <div className="d-flex justify-content-center mt-3">
+                <button
+                  className="btn btn-warning mx-2"
+                  onClick={() => setEditMode(true)}
+                >
+                  Edit Info
+                </button>
+                <button
+                  className="btn btn-danger mx-2"
+                  onClick={handleDelete}
+                >
+                  Delete Account
+                </button>
+              </div>
             </>
           )}
         </div>
       </div>
       <ToastContainer />
     </div>
-  );
+  );  
 };
 
 export default AuthHOC(UserInfoPage);
