@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import TaskItem from './TaskItem';
 import TaskForm from './TaskForm';
+import AuthHOC from './AuthHOC';
 
 const TasksPage = () => {
   const [tasks, setTasks] = useState([]);
@@ -88,8 +89,7 @@ const TasksPage = () => {
 
   return (
     <div className="container mt-4">
-        <h2 className="mb-4">Your Tasks</h2>
-
+      <h2 className="mb-4">Your Tasks</h2>
       {tasks.length > 0 ? (
         tasks.map(task => (
           <TaskItem
@@ -102,11 +102,11 @@ const TasksPage = () => {
         ))
       ) : (
         <p>No tasks found.</p>
-      )}      
+      )}
       <TaskForm taskToEdit={taskToEdit} onTaskAddedOrUpdated={handleTaskAddedOrUpdated} />
-
     </div>
   );
 };
 
-export default TasksPage;
+// Wrap the component with AuthHOC before exporting
+export default AuthHOC(TasksPage);

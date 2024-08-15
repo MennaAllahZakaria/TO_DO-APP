@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import AuthHOC from './AuthHOC';
 
 const UserInfoPage = () => {
   const [user, setUser] = useState(null);
@@ -53,7 +54,8 @@ const UserInfoPage = () => {
   );
 };
 
-export default UserInfoPage;
+export default AuthHOC(UserInfoPage);
+
 
 
 
