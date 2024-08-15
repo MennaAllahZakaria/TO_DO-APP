@@ -72,9 +72,9 @@ exports.updateUserValidator=[
     check('email')
             .notEmpty().withMessage('Email required')
             .isEmail().withMessage('Invalid email address')
-            .custom((val) =>
+            .custom((val,{req}) =>
                 User.findOne({ email: val }).then((user) => {
-                if (user) {
+                if (user&& user._id.toString() !== req.params.id) {
                     return Promise.reject(new Error('E-mail already in user'));
                     }
                 })
@@ -99,17 +99,17 @@ exports.updateLoggedUserValidator=[
     check('email')
             .notEmpty().withMessage('Email required')
             .isEmail().withMessage('Invalid email address')
-            .custom((val) =>
+            .custom((val,{req}) =>
                 User.findOne({ email: val }).then((user) => {
-                if (user) {
+                if (user&& user._id.toString() !== req.user._id.toString()) {
                     return Promise.reject(new Error('E-mail already in user'));
                     }
                 })
             ),
 
     check('phone')
-            .notEmpty().withMessage('User phone is required')
-            .isMobilePhone("ar-EG").withMessage('Invalid EGYPT phone number'),
+            .notEmpty().withMessage('User phone is required'),
+            
     validatorMiddleware,
 ];
 

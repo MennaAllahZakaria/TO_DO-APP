@@ -146,7 +146,6 @@ exports.updateLoggedUserData=asyncHandler(async(req,res,next)=>{
             name:req.body.name,
             email:req.body.email,
             phone:req.body.phone,
-            profileImage:req.body.profileImage,
         },
         {
             new:true,
