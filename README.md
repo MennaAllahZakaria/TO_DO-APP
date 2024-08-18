@@ -2,6 +2,9 @@
 
 This project is a full-stack To-Do application, allowing users to create, manage, and track their tasks. The application includes a front-end built with React and a back-end powered by Node.js, Express, and MongoDB.
 
+#### APP Preview 
+https://github.com/user-attachments/assets/049c4376-c5ba-46f6-b826-7c3ee0f2a319
+
 ## Features
 - User authentication (Sign up, Login, Logout)
 - User Info (view , update and delete user)
