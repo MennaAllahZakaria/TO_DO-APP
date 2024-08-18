@@ -3,6 +3,9 @@ import axios from 'axios';
 import TaskItem from './TaskItem';
 import TaskForm from './TaskForm';
 import AuthHOC from './AuthHOC';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import {showSuccessToast,showErrorToast,showWarningToast} from './toastUtils'
 
 const API_URL = import.meta.env.VITE_API_URL;
 const TasksPage = () => {
@@ -10,10 +13,11 @@ const TasksPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [taskToEdit, setTaskToEdit] = useState(null);
+  const [filter, setFilter] = useState('all');
 
   useEffect(() => {
     fetchTasks();
-  }, []);
+  }, [filter]);
 
   const fetchTasks = async () => {
     try {
@@ -22,7 +26,10 @@ const TasksPage = () => {
         setError('No token found');
         return;
       }
-      const response = await axios.get(`${API_URL}/api/tasks`, {
+      const url = filter === 'all' 
+        ? `${API_URL}/api/tasks/` 
+        : `${API_URL}/api/tasks/${filter}`;
+      const response = await axios.get(url, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -40,6 +47,7 @@ const TasksPage = () => {
   };
 
   const handleEditTask = (task) => {
+    showWarningToast('Task edit successfully')
     setTaskToEdit(task);
   };
 
@@ -55,6 +63,7 @@ const TasksPage = () => {
           Authorization: `Bearer ${token}`,
         },
       });
+      showErrorToast('Task deleted successfully')
       setTasks(tasks.filter(task => task._id !== id));
     } catch (err) {
       setError('Failed to delete task');
@@ -83,6 +92,11 @@ const TasksPage = () => {
   const handleTaskAddedOrUpdated = () => {
     fetchTasks();
     setTaskToEdit(null);
+    showSuccessToast('Task created or updated successfully');
+  };
+
+  const handleFilterChange = (newFilter) => {
+    setFilter(newFilter);
   };
 
   if (loading) return <p>Loading tasks...</p>;
@@ -91,6 +105,23 @@ const TasksPage = () => {
   return (
     <div className="container mt-4">
       <h2 className="mb-4">Your Tasks</h2>
+
+      {/* Filter Buttons */}
+      <div className="mb-3">
+        <button className="btn btn-primary mr-2" onClick={() => handleFilterChange('all')}>
+          All
+        </button>
+        <button className="btn btn-success mr-2" onClick={() => handleFilterChange('completed')}>
+          Completed
+        </button>
+        <button className="btn btn-danger mr-2" onClick={() => handleFilterChange('late')}>
+          Late
+        </button>
+        <button className="btn btn-warning" onClick={() => handleFilterChange('today')}>
+          Today
+        </button>
+      </div>
+
       {tasks.length > 0 ? (
         tasks.map(task => (
           <TaskItem
