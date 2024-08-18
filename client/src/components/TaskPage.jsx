@@ -70,6 +70,34 @@ const TasksPage = () => {
     }
   };
 
+  const handleDeleteAllTasks = async () => {
+    if ( tasks.length === 0) {
+      showWarningToast("No tasks to deleted")
+      return;
+    }
+    if (window.confirm('Are you sure you want to delete all tasks')){
+      
+      try {
+        const token = localStorage.getItem('token');
+        if (!token) {
+          setError('No token found');
+          return;
+        }
+        await axios.delete(`${API_URL}/api/tasks/`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        fetchTasks()
+        showErrorToast('All Tasks deleted successfully')
+        
+      } catch (err) {
+        setError('Failed to delete task');
+      }
+    }
+    
+  };
+
   const handleToggleComplete = async (id) => {
     try {
       const token = localStorage.getItem('token');
@@ -119,6 +147,12 @@ const TasksPage = () => {
         </button>
         <button className="btn btn-warning" onClick={() => handleFilterChange('today')}>
           Today
+        </button>
+      </div>
+
+      <div className="mb-3">
+        <button className="btn btn-danger mr-" onClick={() => handleDeleteAllTasks()}>
+          Delete All Tasks
         </button>
       </div>
 
