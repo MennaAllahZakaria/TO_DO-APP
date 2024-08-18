@@ -60,3 +60,86 @@
 .not-found-container p {
   color: #6c757d; /* Grey color for the text */
 }
+
+
+:root {
+  --primary-color: #007bff;
+  --background-color: #ffffff;
+  --text-color: #000000;
+}
+
+body.dark-mode {
+  --primary-color: #1e88e5;
+  --background-color: #121212;
+  --text-color: #ffffff;
+}
+
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+body.light {
+  --primary-color: #007bff;
+  --background-color: #ffffff;
+  --text-color: #000000;
+}
+
+body.dark {
+  --primary-color: #1e88e5;
+  --background-color: #121212;
+  --text-color: #ffffff;
+}
+
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+body.light {
+  --background-color: #ffffff;
+  --text-color: #000000;
+  --primary-color: #007bff;
+  --secondary-color: #6c757d;
+  --list-bg-color: #f8f9fa;
+}
+
+body.dark {
+  --background-color: #121212;
+  --text-color: #ffffff;
+  --primary-color: #1e88e5;
+  --secondary-color: #343a40;
+  --list-bg-color: #2a2a2a;
+}
+
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+a.btn-primary {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+a.btn-secondary {
+  background-color: var(--secondary-color);
+  border-color: var(--secondary-color);
+}
+
+.list-group-item {
+  background-color: var(--list-bg-color);
+  color: var(--text-color);
+}
+

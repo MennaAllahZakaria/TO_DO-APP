@@ -107,7 +107,7 @@ The API follows RESTful principles. Use tools like [Postman](https://www.postman
   - reset Password `POST /api/auth/resetPassword` (Only User)
   -    --------------
 - Tasks
-  - Create task `POST  /api/categories`(Only Logged user)
+  - Create task `POST  /api/tasks`(Only Logged user)
   - Get all tasks for logged user `GET  /api/tasks`(Only Logged user)
   - Get late tasks `Get /api/tasks/late`(Only Logged user)
   - Get today tasks `GET /api/tasks/today`(Only Logged user)

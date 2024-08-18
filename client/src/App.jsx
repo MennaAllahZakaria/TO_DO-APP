@@ -11,6 +11,7 @@ import NotFound from './components/NotFound';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ForgotPasswordPage from './components/ForgotPasswordPage';
 import ResetPasswordPage from './components/ResetPasswordPage';
+import { ThemeProvider } from './components/ThemeContext';
 import './App.css'
 
 function App() {
@@ -39,21 +40,23 @@ function App() {
   );
 
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<HomePage />} />
-          <Route path="signup" element={<SignUpPage />} />
-          <Route path="login" element={<LoginPage />} handleLogin={handleLogin}  />
-          <Route path="contactus" element={<ContactUs />} />
-          <Route path="tasks" element={<TasksPage />} />
-          <Route path="user-info" element={<UserInfoPage />} />    
-          <Route path="forgot-password" element={<ForgotPasswordPage/>} />
-          <Route path="reset-password" element={<ResetPasswordPage/>} />
-          <Route path="*" element={<NotFound />} />
-        </Route>
-      </Routes>
-    </Router>
+    <ThemeProvider>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<HomePage />} />
+            <Route path="signup" element={<SignUpPage />} />
+            <Route path="login" element={<LoginPage />} handleLogin={handleLogin}  />
+            <Route path="contactus" element={<ContactUs />} />
+            <Route path="tasks" element={<TasksPage />} />
+            <Route path="user-info" element={<UserInfoPage />} />    
+            <Route path="forgot-password" element={<ForgotPasswordPage/>} />
+            <Route path="reset-password" element={<ResetPasswordPage/>} />
+            <Route path="*" element={<NotFound />} />
+          </Route>
+        </Routes>
+      </Router>
+    </ThemeProvider>
   );
 }
 

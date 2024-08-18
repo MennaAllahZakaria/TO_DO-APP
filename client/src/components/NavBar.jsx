@@ -1,9 +1,10 @@
 import React from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { useTheme } from './ThemeContext';
 
 const NavBar = ({ isAuthenticated, handleLogout }) => {
   const navigate = useNavigate(); // Initialize navigate here
-
+  const { theme, toggleTheme } = useTheme();
   const onLogout = () => {
     localStorage.removeItem('token'); // Clear the token
     handleLogout(); // Call handleLogout if provided
@@ -81,6 +82,11 @@ const NavBar = ({ isAuthenticated, handleLogout }) => {
                 </li>
               </>
             )}
+            <li>
+                <button onClick={toggleTheme} className="btn btn-secondary">
+                    {theme === 'light' ? <i className="fas fa-moon"></i> : <i className="fas fa-sun"></i>}
+                </button>
+            </li>
           </ul>
         </div>
       </div>
