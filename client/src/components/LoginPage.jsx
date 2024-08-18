@@ -28,7 +28,14 @@ const LoginPage = ({handleLogin}) => {
         localStorage.setItem('token', token); // Store the token
         if (handleLogin) handleLogin();
         console.log("Login successful")
-        showSuccessToast(`Welcome back ,${values.name}`);
+        
+        const User=await axios.get(`${API_URL}/api/users/getMe`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        const name =User.data.data.name
+        showSuccessToast(`Welcome back ,${name}`);
         // Redirect to tasks page
         setTimeout(() => {
           window.location.href = '/tasks';
